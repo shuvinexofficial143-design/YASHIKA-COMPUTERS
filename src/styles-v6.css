@@ -1,0 +1,72 @@
+/* V6 - Supabase cloud backend indicators and secure admin login */
+
+.v6-footer-mode {
+  color: #5876a0;
+  font-size: 9px;
+}
+
+.admin-lock-v6 {
+  width: min(480px, 100%);
+}
+
+.admin-mode-pill,
+.admin-cloud-status {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .03em;
+}
+
+.admin-mode-pill {
+  margin-bottom: 13px;
+  padding: 7px 9px;
+  background: #eef5ff;
+  color: #1769ff;
+}
+
+.admin-login-v6 {
+  grid-template-columns: 1fr !important;
+}
+
+.admin-login-v6 input {
+  width: 100%;
+}
+
+.admin-login-v6 button {
+  width: 100%;
+}
+
+.admin-login-v6 button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.v6-security-note {
+  margin-top: 14px;
+  padding: 11px;
+  border: 1px solid #dce9dd;
+  border-radius: 10px;
+  background: #f2fbf4;
+  color: #4d7458;
+  font-size: 8px;
+  line-height: 1.55;
+}
+
+.admin-cloud-status {
+  margin-bottom: 10px;
+  padding: 6px 8px;
+  border: 1px solid #dbe5f4;
+  background: #eef5ff;
+  color: #1769ff;
+}
+
+@media (max-width: 620px) {
+  .v6-footer-mode {
+    display: block;
+    margin-top: 5px;
+  }
+}
