@@ -51,7 +51,7 @@ export default function CartDrawer({
       setCouponMessage(`Coupon ${code} applied`);
     } else {
       setCoupon(null);
-      setCouponMessage("Try demo codes YC500 or YASHIKA5");
+      setCouponMessage("This coupon code is not valid.");
     }
   };
 
@@ -140,7 +140,7 @@ export default function CartDrawer({
                 <strong>{money(subtotal)}</strong>
               </div>
               <div>
-                <span>Demo coupon discount</span>
+                <span>Offer discount</span>
                 <strong>-{money(discount)}</strong>
               </div>
               <div className="cart-total-row">
@@ -165,7 +165,7 @@ export default function CartDrawer({
             </button>
 
             <small className="cart-disclaimer">
-              No payment is charged in this demo. Final pricing, shipping,
+              Online payment is not collected here. Final pricing, delivery,
               warranty and stock are confirmed by the store.
             </small>
           </>
