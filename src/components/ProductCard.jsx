@@ -14,7 +14,6 @@ export default function ProductCard({
   compareDisabled,
   onLike,
   onAdd,
-  onQuickView,
   onCompare,
   onDetails,
 }) {
