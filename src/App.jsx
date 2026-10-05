@@ -66,6 +66,7 @@ function App() {
   const [wishlistOpen, setWishlistOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [returnToCheckoutAfterAuth, setReturnToCheckoutAfterAuth] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [aiSeed, setAiSeed] = useState(null);
 
@@ -306,7 +307,10 @@ function App() {
 
           <button
             className="icon-button v4-account-button"
-            onClick={() => setAuthOpen(true)}
+            onClick={() => {
+              setReturnToCheckoutAfterAuth(false);
+              setAuthOpen(true);
+            }}
             aria-label="Customer account"
           >
             <UserRound size={19} />
@@ -336,7 +340,14 @@ function App() {
           <span>
             Welcome back, <strong>{user.name}</strong>
           </span>
-          <button onClick={() => setAuthOpen(true)}>Edit profile</button>
+          <button
+            onClick={() => {
+              setReturnToCheckoutAfterAuth(false);
+              setAuthOpen(true);
+            }}
+          >
+            Edit profile
+          </button>
         </div>
       )}
 
@@ -730,7 +741,13 @@ function App() {
       <AuthModal
         open={authOpen}
         user={user}
-        onSave={setUser}
+        onSave={(profile) => {
+          setUser(profile);
+          if (returnToCheckoutAfterAuth) {
+            setCheckoutOpen(true);
+            setReturnToCheckoutAfterAuth(false);
+          }
+        }}
         onLogout={() => setUser(null)}
         onClose={() => setAuthOpen(false)}
       />
@@ -745,6 +762,7 @@ function App() {
         onOrderSuccess={() => setCart([])}
         onOpenAccount={() => {
           setCheckoutOpen(false);
+          setReturnToCheckoutAfterAuth(true);
           setAuthOpen(true);
         }}
       />
