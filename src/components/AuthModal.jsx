@@ -37,17 +37,17 @@ export default function AuthModal({ open, user, onSave, onLogout, onClose }) {
           <UserRound size={27} />
         </div>
 
-        <span className="eyebrow">CUSTOMER ACCOUNT</span>
-        <h2>{user ? "Your saved profile" : "Save your details"}</h2>
+        <span className="eyebrow">CUSTOMER DETAILS</span>
+        <h2>{user ? "Your saved details" : "Save your details"}</h2>
         <p className="auth-intro">
-          This version saves your details only in this browser so future
-          enquiries can be faster.
+          Save your contact details on this device to make future enquiries
+          faster.
         </p>
 
         {user && (
           <div className="signed-in-pill">
             <CheckCircle2 size={16} />
-            Signed in locally as {user.name}
+            Details saved for {user.name}
           </div>
         )}
 
@@ -108,8 +108,8 @@ export default function AuthModal({ open, user, onSave, onLogout, onClose }) {
         )}
 
         <small className="auth-note">
-          Demo account UI only — secure server login/password authentication
-          will be added when the backend is connected.
+          Your saved details stay in this browser and are used to prefill
+          enquiries.
         </small>
       </section>
     </div>
