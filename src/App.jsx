@@ -225,9 +225,7 @@ function App() {
 
     const existing = cart.find((item) => item.id === product.id);
     const nextCart = existing
-      ? cart.map((item) =>
-          item.id === product.id ? { ...item, qty: item.qty + 1 } : item
-        )
+      ? cart
       : [...cart, { ...product, qty: 1 }];
 
     const subtotal = nextCart.reduce(
@@ -467,7 +465,7 @@ function App() {
               <option value="featured">Featured</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
-              <option value="rating">Top Rated</option>
+              <option value="rating">Recommended</option>
             </select>
           </div>
 
@@ -734,7 +732,10 @@ function App() {
         products={wishlistProducts}
         onClose={() => setWishlistOpen(false)}
         onRemove={toggleLike}
-        onAdd={addToCart}
+        onAdd={(product) => {
+          addToCart(product);
+          setWishlistOpen(false);
+        }}
         onDetails={setProductDetails}
       />
 
@@ -758,7 +759,6 @@ function App() {
         pricing={checkoutPricing}
         user={user}
         onClose={() => setCheckoutOpen(false)}
-        onCreateOrder={async () => ({ ok: true })}
         onOrderSuccess={() => setCart([])}
         onOpenAccount={() => {
           setCheckoutOpen(false);
