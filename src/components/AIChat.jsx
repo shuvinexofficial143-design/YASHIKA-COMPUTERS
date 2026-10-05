@@ -9,7 +9,6 @@ import {
   X,
 } from "lucide-react";
 import { askYashikaAI } from "../lib/ai";
-import { isSupabaseConfigured } from "../lib/supabase";
 
 const welcomeMessage = {
   role: "assistant",
@@ -125,11 +124,7 @@ export default function AIChat({
 
         <div>
           <strong>Yashika AI</strong>
-          <small>
-            {isSupabaseConfigured
-              ? "Groq-powered shopping assistant"
-              : "Backend setup required"}
-          </small>
+          <small>Personal shopping assistant</small>
         </div>
 
         <button onClick={onClose} aria-label="Minimize AI chat">
@@ -142,13 +137,6 @@ export default function AIChat({
       </header>
 
       <div className="ai-chat-body">
-        {!isSupabaseConfigured && (
-          <div className="ai-setup-warning">
-            <Sparkles size={16} />
-            Supabase connect होने के बाद Groq AI live होगा। UI अभी ready है।
-          </div>
-        )}
-
         {messages.map((message, index) => (
           <article
             key={`${message.role}-${index}`}
