@@ -500,7 +500,6 @@ function App() {
                       compareDisabled={compare.length >= 3}
                       onLike={toggleLike}
                       onAdd={addToCart}
-                      onQuickView={setProductDetails}
                       onDetails={setProductDetails}
                       onCompare={toggleCompare}
                     />
