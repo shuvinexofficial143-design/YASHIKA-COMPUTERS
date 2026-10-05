@@ -77,6 +77,10 @@ export default function AIChat({
         productId: activeProductId,
       });
 
+      if (activeProductId != null) {
+        setActiveProductId(null);
+      }
+
       setMessages((current) => [
         ...current,
         {
