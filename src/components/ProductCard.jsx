@@ -61,7 +61,15 @@ export default function ProductCard({
         <p className="product-subtitle">{product.subtitle}</p>
 
         <div className="stock-line">
-          <span className={product.stock === "Low Stock" ? "low" : ""}>
+          <span
+            className={
+              product.stock === "Low Stock"
+                ? "low"
+                : product.stock === "Out of Stock"
+                ? "out"
+                : ""
+            }
+          >
             {product.stock}
           </span>
           <small>{product.warranty}</small>
@@ -82,9 +90,13 @@ export default function ProductCard({
         </button>
 
         <div className="product-actions">
-          <button className="btn btn-card" onClick={() => onAdd(product)}>
+          <button
+            className="btn btn-card"
+            onClick={() => onAdd(product)}
+            disabled={product.stock === "Out of Stock"}
+          >
             <ShoppingBag size={17} />
-            Add
+            {product.stock === "Out of Stock" ? "Out of stock" : "Add"}
           </button>
           <button
             className="btn btn-ghost btn-card"
