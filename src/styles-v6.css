@@ -212,3 +212,22 @@
     font-size: 11px;
   }
 }
+
+
+.details-actions-v2 {
+  grid-template-columns: minmax(180px, 1fr) auto auto;
+}
+
+.details-actions-v2 .btn-secondary {
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .details-actions-v2 {
+    grid-template-columns: 1fr;
+  }
+
+  .details-actions-v2 .btn {
+    width: 100%;
+  }
+}
