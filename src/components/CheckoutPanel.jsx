@@ -21,12 +21,10 @@ export default function CheckoutPanel({
   user,
   onClose,
   onOpenAccount,
-  onCreateOrder,
   onOrderSuccess,
 }) {
   const [pincode, setPincode] = useState("");
   const [pinStatus, setPinStatus] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
   const itemCount = useMemo(
@@ -44,7 +42,7 @@ export default function CheckoutPanel({
     }
   };
 
-  const confirmOrder = async () => {
+  const confirmOrder = () => {
     setSubmitError("");
 
     if (!cart.length) {
@@ -70,50 +68,23 @@ export default function CheckoutPanel({
       return;
     }
 
-    const order = {
-      id: `YC${Date.now().toString().slice(-8)}`,
-      createdAt: new Date().toLocaleString("en-IN"),
-      status: "New",
-      customer: user,
-      pincode,
-      items: cart.map((item) => ({
-        id: item.id,
-        name: item.name,
-        qty: item.qty,
-        price: item.price,
-      })),
-      subtotal: pricing?.subtotal || 0,
-      discount: pricing?.discount || 0,
-      total: pricing?.total || 0,
-      coupon: pricing?.coupon || null,
-    };
+    const requestId = `YC${Date.now().toString().slice(-8)}`;
 
-    setSubmitting(true);
+    const lines = cart
+      .map(
+        (item) =>
+          `• ${item.name} x${item.qty} — ${money(item.price * item.qty)}`
+      )
+      .join("\n");
 
-    try {
-      const result = await onCreateOrder(order);
+    const customer = `${user.name} | ${user.phone}${
+      user.email ? ` | ${user.email}` : ""
+    }`;
 
-      if (result?.ok === false) {
-        throw new Error(
-          result?.error?.message || "We could not prepare your order request."
-        );
-      }
+    const message = encodeURIComponent(
+      `Hello Yashika Computers, I want to confirm this order request.
 
-      const lines = cart
-        .map(
-          (item) =>
-            `• ${item.name} x${item.qty} — ${money(item.price * item.qty)}`
-        )
-        .join("\n");
-
-      const customer = `${user.name} | ${user.phone}${
-        user.email ? ` | ${user.email}` : ""
-      }`;
-
-      const message = encodeURIComponent(
-        `Hello Yashika Computers, I want to place/confirm this enquiry order.
-
-Order ID: ${order.id}
+Request ID: ${requestId}
 Customer: ${customer}
 Pincode: ${pincode}
 
@@ -125,19 +96,11 @@ Discount: ${money(pricing?.discount || 0)}
 Estimated total: ${money(pricing?.total || 0)}
 
 Please confirm exact stock, condition, warranty, delivery and final payable amount.`
-      );
+    );
 
-      onOrderSuccess?.();
-      window.open(`https://wa.me/919669888886?text=${message}`, "_blank");
-      onClose();
-    } catch (error) {
-      setSubmitError(
-        error?.message ||
-          "We could not prepare your order request. Please try again."
-      );
-    } finally {
-      setSubmitting(false);
-    }
+    window.open(`https://wa.me/919669888886?text=${message}`, "_blank");
+    onOrderSuccess?.();
+    onClose();
   };
 
   return (
@@ -271,10 +234,9 @@ Please confirm exact stock, condition, warranty, delivery and final payable amou
             <button
               className="btn btn-primary btn-wide"
               onClick={confirmOrder}
-              disabled={submitting}
             >
               <MessageCircle size={18} />
-              {submitting ? "Preparing..." : "Continue on WhatsApp"}
+              Continue on WhatsApp
             </button>
 
             <p>
