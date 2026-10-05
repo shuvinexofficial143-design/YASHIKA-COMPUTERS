@@ -26,6 +26,7 @@ export default function ProductDetails({
   liked,
   onLike,
   onAdd,
+  onBuyNow,
   onClose,
   onOpenRelated,
   onAskAI,
@@ -111,16 +112,24 @@ export default function ProductDetails({
               <span>{product.warranty}</span>
             </div>
 
-            <div className="details-actions">
+            <div className="details-actions details-actions-v2">
               <button
                 className="btn btn-primary"
-                onClick={() => onAdd(product)}
+                onClick={() => onBuyNow?.(product)}
                 disabled={product.stock === "Out of Stock"}
               >
                 <ShoppingBag size={18} />
                 {product.stock === "Out of Stock"
                   ? "Currently unavailable"
-                  : "Add to enquiry cart"}
+                  : "Order now"}
+              </button>
+
+              <button
+                className="btn btn-secondary"
+                onClick={() => onAdd(product)}
+                disabled={product.stock === "Out of Stock"}
+              >
+                Add to cart
               </button>
 
               <button
