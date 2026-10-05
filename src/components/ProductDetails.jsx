@@ -72,7 +72,7 @@ export default function ProductDetails({
             <div className="details-rating">
               <Star size={17} fill="currentColor" />
               <strong>{product.rating}</strong>
-              <span>store-rating style score</span>
+              <span>Product rating</span>
             </div>
 
             <div className="details-price">
@@ -82,7 +82,15 @@ export default function ProductDetails({
             </div>
 
             <div className="details-chips">
-              <span className={product.stock === "Low Stock" ? "warning" : ""}>
+              <span
+                className={
+                  product.stock === "Low Stock"
+                    ? "warning"
+                    : product.stock === "Out of Stock"
+                    ? "danger"
+                    : ""
+                }
+              >
                 {product.stock}
               </span>
               <span>{product.condition}</span>
@@ -90,9 +98,15 @@ export default function ProductDetails({
             </div>
 
             <div className="details-actions">
-              <button className="btn btn-primary" onClick={() => onAdd(product)}>
+              <button
+                className="btn btn-primary"
+                onClick={() => onAdd(product)}
+                disabled={product.stock === "Out of Stock"}
+              >
                 <ShoppingBag size={18} />
-                Add to enquiry cart
+                {product.stock === "Out of Stock"
+                  ? "Currently unavailable"
+                  : "Add to enquiry cart"}
               </button>
 
               <button
