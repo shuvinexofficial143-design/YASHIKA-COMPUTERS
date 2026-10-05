@@ -44,7 +44,6 @@ import { brands, categories, products } from "./data";
 import "./styles-v2.css";
 import "./styles-v3.css";
 import "./styles-v4.css";
-import "./styles-v5.css";
 import "./styles-v6.css";
 import "./styles-v7.css";
 
