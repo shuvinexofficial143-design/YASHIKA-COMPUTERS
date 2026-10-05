@@ -68,6 +68,7 @@ export default function AuthModal({ open, user, onSave, onLogout, onClose }) {
             Phone
             <input
               required
+              minLength="10"
               inputMode="tel"
               value={form.phone}
               onChange={(event) =>
