@@ -18,10 +18,30 @@ export default function ProductCard({
   onCompare,
   onDetails,
 }) {
-  const discount = Math.max(
-    0,
-    Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
-  );
+  const hasDiscount =
+    Number(product.oldPrice) > Number(product.price) && Number(product.oldPrice) > 0;
+
+  const discount = hasDiscount
+    ? Math.round(
+        ((Number(product.oldPrice) - Number(product.price)) /
+          Number(product.oldPrice)) *
+          100
+      )
+    : 0;
+
+  const preferredSpecKeys = [
+    "Processor",
+    "GPU",
+    "Memory",
+    "Storage",
+    "Display",
+    "Use",
+  ];
+
+  const quickSpecs = preferredSpecKeys
+    .filter((key) => product.specs?.[key])
+    .slice(0, 3)
+    .map((key) => product.specs[key]);
 
   return (
     <article className="product-card">
@@ -31,12 +51,19 @@ export default function ProductCard({
           onClick={() => onDetails(product)}
           aria-label={`Open ${product.name} details`}
         >
-          <img src={product.image} alt={product.name} loading="lazy" />
+          <img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+            onError={(event) => {
+              event.currentTarget.style.opacity = "0";
+            }}
+          />
         </button>
 
         <div className="product-badges">
           <span className="badge badge-accent">{product.badge}</span>
-          <span className="badge">-{discount}%</span>
+          {hasDiscount && <span className="badge">Save {discount}%</span>}
         </div>
 
         <button
@@ -60,6 +87,14 @@ export default function ProductCard({
 
         <p className="product-subtitle">{product.subtitle}</p>
 
+        {quickSpecs.length > 0 && (
+          <div className="product-quick-specs">
+            {quickSpecs.map((spec) => (
+              <span key={spec}>{spec}</span>
+            ))}
+          </div>
+        )}
+
         <div className="stock-line">
           <span
             className={
@@ -77,7 +112,7 @@ export default function ProductCard({
 
         <div className="price-row">
           <strong>{money(product.price)}</strong>
-          <del>{money(product.oldPrice)}</del>
+          {hasDiscount && <del>{money(product.oldPrice)}</del>}
         </div>
 
         <button
