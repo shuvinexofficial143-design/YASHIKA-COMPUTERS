@@ -179,7 +179,7 @@
   border-radius: 7px;
   background: #eaf8f0;
   color: #168452;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -198,7 +198,7 @@
   max-width: 112px;
   overflow: hidden;
   color: #8e98a7;
-  font-size: 8px;
+  font-size: 10px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -370,7 +370,7 @@
   border-radius: 8px;
   background: #f8fafc;
   color: #586579;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
 }
 
