@@ -18,7 +18,6 @@ import {
   ShieldCheck,
   ShoppingBag,
   Sparkles,
-  Star,
   UserRound,
   Wrench,
   X,
@@ -40,7 +39,7 @@ import WishlistDrawer from "./components/WishlistDrawer";
 import AIChat from "./components/AIChat";
 
 import usePersistentState from "./hooks/usePersistentState";
-import { brands, categories, products, reviews } from "./data";
+import { brands, categories, products } from "./data";
 
 import "./styles-v2.css";
 import "./styles-v3.css";
@@ -344,8 +343,8 @@ function App() {
               </div>
 
               <div className="trust-row">
-                <div><strong>4.8★</strong><span>Google rating</span></div>
-                <div><strong>93+</strong><span>Google reviews</span></div>
+                <div><strong>Tested</strong><span>Quality-checked devices</span></div>
+                <div><strong>Upgrade</strong><span>RAM · SSD · GPU support</span></div>
                 <div><strong>Indore</strong><span>Local store support</span></div>
               </div>
             </div>
@@ -535,31 +534,62 @@ function App() {
         <section className="section review-section" id="reviews">
           <div className="section-head">
             <div>
-              <span className="eyebrow">CUSTOMER LOVE</span>
-              <h2>Trusted by local buyers</h2>
+              <span className="eyebrow">BUY WITH CLARITY</span>
+              <h2>A better way to choose refurbished tech</h2>
             </div>
 
             <div className="rating-pill">
-              <Star size={18} fill="currentColor" />
-              <strong>4.8</strong>
-              <span>93 Google reviews</span>
+              <ShieldCheck size={18} />
+              <strong>Clear</strong>
+              <span>Condition · Specs · Support</span>
             </div>
           </div>
 
           <div className="review-grid">
-            {reviews.map((review) => (
-              <article className="review-card" key={review.name}>
-                <div className="stars">★★★★★</div>
-                <p>“{review.text}”</p>
-                <div className="review-author">
-                  <span>{review.name.charAt(0)}</span>
-                  <div>
-                    <strong>{review.name}</strong>
-                    <small>Google customer review</small>
-                  </div>
+            <article className="review-card">
+              <div className="stars">01</div>
+              <p>
+                Compare price, condition, warranty and key specifications
+                before you shortlist any device.
+              </p>
+              <div className="review-author">
+                <span>✓</span>
+                <div>
+                  <strong>Transparent selection</strong>
+                  <small>Know what you are comparing</small>
                 </div>
-              </article>
-            ))}
+              </div>
+            </article>
+
+            <article className="review-card">
+              <div className="stars">02</div>
+              <p>
+                Use the PC Finder or Yashika AI to narrow down options around
+                your budget and real workload.
+              </p>
+              <div className="review-author">
+                <span>AI</span>
+                <div>
+                  <strong>Smarter shortlisting</strong>
+                  <small>Budget and use-case guidance</small>
+                </div>
+              </div>
+            </article>
+
+            <article className="review-card">
+              <div className="stars">03</div>
+              <p>
+                Confirm stock, exact unit condition, upgrades and delivery
+                directly with the store before purchase.
+              </p>
+              <div className="review-author">
+                <span>YC</span>
+                <div>
+                  <strong>Human store support</strong>
+                  <small>Call or WhatsApp before buying</small>
+                </div>
+              </div>
+            </article>
           </div>
         </section>
 
