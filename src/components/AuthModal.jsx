@@ -40,7 +40,7 @@ export default function AuthModal({ open, user, onSave, onLogout, onClose }) {
         <span className="eyebrow">CUSTOMER DETAILS</span>
         <h2>{user ? "Your saved details" : "Save your details"}</h2>
         <p className="auth-intro">
-          Save your contact details on this device to make future enquiries
+          Save your contact details once to make checkout and future enquiries
           faster.
         </p>
 
@@ -109,8 +109,7 @@ export default function AuthModal({ open, user, onSave, onLogout, onClose }) {
         )}
 
         <small className="auth-note">
-          Your saved details stay in this browser and are used to prefill
-          enquiries.
+          These details are used only to prefill your shopping enquiries.
         </small>
       </section>
     </div>
