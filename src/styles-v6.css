@@ -70,3 +70,187 @@
     margin-top: 5px;
   }
 }
+
+
+/* Client showcase polish */
+
+.product-quick-specs {
+  min-height: 48px;
+  margin: 13px 0 2px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 6px;
+}
+
+.product-quick-specs span {
+  max-width: 100%;
+  padding: 6px 8px;
+  overflow: hidden;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #536176;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finder-confidence {
+  max-width: 430px;
+  margin-top: 24px;
+  padding: 15px 17px;
+  display: grid;
+  gap: 5px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 15px;
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(10px);
+}
+
+.finder-confidence > span {
+  color: #8eb7ff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.finder-confidence strong {
+  color: white;
+  font: 800 16px/1.25 "Manrope", sans-serif;
+}
+
+.finder-confidence small {
+  color: rgba(255,255,255,.63);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.finder-results {
+  display: grid;
+  gap: 8px;
+}
+
+.finder-results-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.finder-results-head small {
+  color: #7c899b;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .07em;
+}
+
+.finder-results-head span {
+  color: #8b96a6;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.finder-result {
+  width: 100%;
+  min-height: 78px;
+  padding: 9px;
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: 11px;
+  align-items: center;
+  border: 1px solid #e1e6ed;
+  border-radius: 14px;
+  background: white;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.finder-result:hover {
+  transform: translateY(-2px);
+  border-color: #cbd9ef;
+  box-shadow: 0 10px 25px rgba(14, 32, 58, .08);
+}
+
+.finder-result img {
+  width: 72px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #eef2f6;
+}
+
+.finder-result > span {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.finder-result > span small {
+  color: #1769ff;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .05em;
+}
+
+.finder-result > span strong {
+  overflow: hidden;
+  color: #162236;
+  font: 800 12px/1.3 "Manrope", sans-serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finder-result > span em {
+  overflow: hidden;
+  color: #7c8798;
+  font-size: 9px;
+  font-style: normal;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finder-result > b {
+  color: #111c2e;
+  font: 800 12px/1 "Manrope", sans-serif;
+  white-space: nowrap;
+}
+
+.product-image-click,
+.details-image {
+  background:
+    radial-gradient(circle at 30% 25%, rgba(23,105,255,.08), transparent 32%),
+    #eef2f6;
+}
+
+@media (max-width: 620px) {
+  .product-quick-specs {
+    min-height: 0;
+  }
+
+  .product-quick-specs span {
+    font-size: 9px;
+  }
+
+  .finder-confidence {
+    margin-top: 18px;
+  }
+
+  .finder-result {
+    grid-template-columns: 60px 1fr;
+  }
+
+  .finder-result img {
+    width: 60px;
+    height: 52px;
+  }
+
+  .finder-result > b {
+    grid-column: 2;
+    margin-top: -2px;
+  }
+}
