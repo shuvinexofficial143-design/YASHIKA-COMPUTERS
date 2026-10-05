@@ -65,7 +65,7 @@ export default function CartDrawer({
       >
         <div className="drawer-head">
           <div>
-            <small>SHOPPING / ENQUIRY CART</small>
+            <small>YOUR CART</small>
             <h3>{cart.reduce((sum, item) => sum + item.qty, 0)} items</h3>
           </div>
           <button className="icon-button" onClick={onClose} aria-label="Close cart">
@@ -78,7 +78,7 @@ export default function CartDrawer({
             <div className="cart-empty">
               <ShoppingBag size={32} />
               <strong>Your cart is empty</strong>
-              <p>Add a product to start an enquiry.</p>
+              <p>Add products here to compare your final shortlist.</p>
             </div>
           ) : (
             cart.map((item) => (
@@ -160,13 +160,13 @@ export default function CartDrawer({
                 })
               }
             >
-              Continue to checkout
+              Review order
               <ArrowRight size={18} />
             </button>
 
             <small className="cart-disclaimer">
-              Online payment is not collected here. Final pricing, delivery,
-              warranty and stock are confirmed by the store.
+              Final stock, delivery and warranty are confirmed with the store
+              before purchase.
             </small>
           </>
         )}
