@@ -10,7 +10,7 @@ const money = (value) =>
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function normalize(value) {
-  return String(value || "").toLowerCase().replace(/,/g, " ").replace(/\s+/g, " ").trim();
+  return String(value || "").toLowerCase().replace(/,/g, "").replace(/\s+/g, " ").trim();
 }
 
 function parseBudget(message) {
