@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 const faqs = [
   {
     q: "Are refurbished laptops checked before sale?",
-    a: "The store website can present testing and condition details for each device. For a final purchase, confirm the exact unit condition, battery status, warranty and accessories with the store.",
+    a: "Each listing shows the available condition and warranty information. Before purchase, confirm the exact unit condition, battery status, included accessories and final warranty with the store.",
   },
   {
     q: "Can I upgrade RAM or SSD before buying?",
@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: "Can Yashika Computers build a custom gaming PC?",
-    a: "Yes. The website can collect your budget, target games or software, preferred parts and monitor resolution, then send the requirement directly to the store.",
+    a: "Share your budget, target games or software, preferred parts and monitor resolution. The store can then suggest a suitable configuration and available components.",
   },
   {
     q: "Is delivery outside Indore possible?",
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: "Can I enquire on WhatsApp instead of online checkout?",
-    a: "Yes. This version uses an enquiry-first flow so customers can shortlist products and contact the store directly on WhatsApp.",
+    a: "Yes. Add products to your cart or shortlist, review the details, and continue directly on WhatsApp for stock and purchase confirmation.",
   },
 ];
 
@@ -35,8 +35,8 @@ export default function FAQ() {
           <h2>Frequently asked questions</h2>
         </div>
         <p>
-          Clear answers reduce hesitation and make it easier for customers to
-          contact the store with the right information.
+          Quick answers about condition, upgrades, delivery and buying support
+          before you make a decision.
         </p>
       </div>
 
