@@ -254,3 +254,28 @@
     margin-top: -2px;
   }
 }
+
+
+@media (max-width: 620px) {
+  .v4-account-button {
+    display: grid !important;
+  }
+
+  .coupon-box > small,
+  .cart-disclaimer,
+  .checkout-card-title small,
+  .checkout-items span small,
+  .checkout-total > p,
+  .customer-card p,
+  .pin-result {
+    font-size: 10px;
+  }
+
+  .checkout-items span strong,
+  .checkout-items > div > strong,
+  .customer-card > div > strong,
+  .checkout-total > div,
+  .checkout-total > div strong {
+    font-size: 11px;
+  }
+}
