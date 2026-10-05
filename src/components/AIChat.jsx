@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Bot,
   ChevronDown,
-  MessageCircle,
   Send,
   Sparkles,
   Trash2,
