@@ -9,7 +9,6 @@ import {
   Heart,
   Instagram,
   Laptop,
-  LayoutDashboard,
   MapPin,
   Menu,
   MonitorUp,
@@ -38,14 +37,10 @@ import AuthModal from "./components/AuthModal";
 import CartDrawer from "./components/CartDrawer";
 import CheckoutPanel from "./components/CheckoutPanel";
 import WishlistDrawer from "./components/WishlistDrawer";
-import AdminDashboard from "./components/AdminDashboard";
-import AdminProductForm from "./components/AdminProductForm";
 import AIChat from "./components/AIChat";
 
 import usePersistentState from "./hooks/usePersistentState";
-import useCatalogState from "./hooks/useCatalogState";
-import useOrdersState from "./hooks/useOrdersState";
-import { categories, reviews } from "./data";
+import { brands, categories, products, reviews } from "./data";
 
 import "./styles-v2.css";
 import "./styles-v3.css";
@@ -55,27 +50,6 @@ import "./styles-v6.css";
 import "./styles-v7.css";
 
 function App() {
-  const {
-    products,
-    brands,
-    loading: productsLoading,
-    mode: catalogMode,
-    addProduct,
-    updateProduct,
-    deleteProduct,
-    resetCatalog,
-    refreshProducts,
-  } = useCatalogState();
-
-  const {
-    orders,
-    mode: ordersMode,
-    createOrder,
-    updateOrderStatus,
-    deleteOrder,
-    refreshOrders,
-  } = useOrdersState();
-
   const [category, setCategory] = useState("All");
   const [query, setQuery] = useState("");
   const [brand, setBrand] = useState("All");
@@ -94,9 +68,6 @@ function App() {
   const [wishlistOpen, setWishlistOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
-  const [adminOpen, setAdminOpen] = useState(false);
-  const [adminFormOpen, setAdminFormOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null);
   const [aiOpen, setAiOpen] = useState(false);
   const [aiSeed, setAiSeed] = useState(null);
 
@@ -248,16 +219,6 @@ function App() {
     setCheckoutPricing(pricing);
     setCartOpen(false);
     setCheckoutOpen(true);
-  };
-
-  const openNewProduct = () => {
-    setEditingProduct(null);
-    setAdminFormOpen(true);
-  };
-
-  const openEditProduct = (product) => {
-    setEditingProduct(product);
-    setAdminFormOpen(true);
   };
 
   return (
@@ -488,7 +449,7 @@ function App() {
             <div>
               <div className="catalog-meta">
                 <span>
-                  {productsLoading ? "Loading catalog..." : `${filteredProducts.length} products found`}
+                  {`${filteredProducts.length} products found`}
                 </span>
                 <small>Updated catalog · Contact store for final availability</small>
               </div>
@@ -512,12 +473,8 @@ function App() {
                 ) : (
                   <div className="empty-state">
                     <Search size={28} />
-                    <h3>{productsLoading ? "Loading..." : "No matching product"}</h3>
-                    <p>
-                      {productsLoading
-                        ? "Loading the latest catalog."
-                        : "Try another search, budget or brand."}
-                    </p>
+                    <h3>No matching product</h3>
+                    <p>Try another search, budget or brand.</p>
                   </div>
                 )}
               </div>
@@ -685,10 +642,6 @@ function App() {
             <span className="v6-footer-mode">Indore · Support available on call & WhatsApp</span>
           </p>
 
-          <button className="footer-admin-button" onClick={() => setAdminOpen(true)}>
-            <LayoutDashboard size={14} />
-            Admin
-          </button>
         </div>
       </footer>
 
@@ -725,7 +678,7 @@ function App() {
         pricing={checkoutPricing}
         user={user}
         onClose={() => setCheckoutOpen(false)}
-        onCreateOrder={createOrder}
+        onCreateOrder={async () => ({ ok: true })}
         onOrderSuccess={() => setCart([])}
         onOpenAccount={() => {
           setCheckoutOpen(false);
@@ -756,33 +709,6 @@ function App() {
           setCompare((current) => current.filter((item) => item.id !== id))
         }
         onClear={() => setCompare([])}
-      />
-
-      <AdminDashboard
-        open={adminOpen}
-        products={products}
-        orders={orders}
-        dataMode={catalogMode === "cloud" && ordersMode === "cloud" ? "cloud" : "local"}
-        onClose={() => setAdminOpen(false)}
-        onNewProduct={openNewProduct}
-        onEditProduct={openEditProduct}
-        onDeleteProduct={deleteProduct}
-        onResetCatalog={resetCatalog}
-        onOrderStatusChange={updateOrderStatus}
-        onDeleteOrder={deleteOrder}
-        onRefreshProducts={refreshProducts}
-        onRefreshOrders={refreshOrders}
-      />
-
-      <AdminProductForm
-        open={adminFormOpen}
-        product={editingProduct}
-        onClose={() => {
-          setAdminFormOpen(false);
-          setEditingProduct(null);
-        }}
-        onCreate={addProduct}
-        onUpdate={updateProduct}
       />
 
       <AIChat
