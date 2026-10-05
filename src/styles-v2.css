@@ -630,10 +630,14 @@
   }
 
   .compare-list {
-    grid-template-columns: 1fr;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
   }
 
   .compare-list article {
+    min-width: 170px;
     grid-template-columns: 42px 1fr;
   }
 
@@ -653,6 +657,6 @@
   }
 
   .compare-dock {
-    bottom: 72px;
+    bottom: 136px;
   }
 }
