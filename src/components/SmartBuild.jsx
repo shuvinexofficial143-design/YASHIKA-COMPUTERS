@@ -54,8 +54,18 @@ export default function SmartBuild({ products = [], onDetails }) {
   const matches = useMemo(() => {
     const current = useCases.find((item) => item.id === useCase) || useCases[0];
 
+    const systemCategories = [
+      "Refurbished Laptop",
+      "MacBook",
+      "Desktop",
+    ];
+
     return products
-      .filter((product) => product.stock !== "Out of Stock")
+      .filter(
+        (product) =>
+          product.stock !== "Out of Stock" &&
+          systemCategories.includes(product.category)
+      )
       .map((product) => {
         const text = searchable(product);
         let score = Number(product.rating || 0) * 2;
@@ -101,8 +111,8 @@ export default function SmartBuild({ products = [], onDetails }) {
           </span>
           <h2>Set your budget. Get matching products instantly.</h2>
           <p>
-            Choose your main use and budget. The finder scans the current
-            catalogue and surfaces the strongest matches.
+            Choose your main use and budget. The finder scans complete systems
+            in the current catalogue and surfaces the strongest matches.
           </p>
 
           {primary && (
