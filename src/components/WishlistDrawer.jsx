@@ -62,7 +62,12 @@ export default function WishlistDrawer({
                 <div className="wishlist-actions">
                   <button
                     onClick={() => onAdd(product)}
-                    aria-label={`Add ${product.name} to cart`}
+                    disabled={product.stock === "Out of Stock"}
+                    aria-label={
+                      product.stock === "Out of Stock"
+                        ? `${product.name} is out of stock`
+                        : `Add ${product.name} to cart`
+                    }
                   >
                     <ShoppingBag size={16} />
                   </button>
