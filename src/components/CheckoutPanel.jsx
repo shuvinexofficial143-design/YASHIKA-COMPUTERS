@@ -57,6 +57,13 @@ export default function CheckoutPanel({
       return;
     }
 
+    const phoneDigits = user.phone.replace(/\D/g, "");
+
+    if (phoneDigits.length < 10 || phoneDigits.length > 12) {
+      setSubmitError("Please enter a valid phone number before continuing.");
+      return;
+    }
+
     if (!/^\d{6}$/.test(pincode)) {
       setPinStatus("invalid");
       setSubmitError("Please enter a valid 6-digit delivery pincode.");
