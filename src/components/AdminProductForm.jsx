@@ -64,6 +64,27 @@ export default function AdminProductForm({
   const submit = (event) => {
     event.preventDefault();
 
+    const specs = product?.specs ? { ...product.specs } : {};
+
+    const primarySpecKey =
+      product?.specs?.GPU && !product?.specs?.Processor ? "GPU" : "Processor";
+
+    const applySpec = (key, value, fallback) => {
+      const clean = value.trim();
+
+      if (clean) {
+        specs[key] = clean;
+      } else if (!product && fallback) {
+        specs[key] = fallback;
+      }
+    };
+
+    applySpec(primarySpecKey, form.processor, "Confirm with store");
+    applySpec("Memory", form.memory, "Confirm with store");
+    applySpec("Storage", form.storage, "Confirm with store");
+    applySpec("Display", form.display, "Confirm with store");
+    applySpec("Use", form.use, "General");
+
     const payload = {
       name: form.name.trim(),
       subtitle: form.subtitle.trim(),
@@ -77,13 +98,7 @@ export default function AdminProductForm({
       warranty: form.warranty.trim() || "Ask store*",
       rating: Number(form.rating || 4.5),
       image: form.image.trim() || emptyForm.image,
-      specs: {
-        Processor: form.processor.trim() || "Confirm with store",
-        Memory: form.memory.trim() || "Confirm with store",
-        Storage: form.storage.trim() || "Confirm with store",
-        Display: form.display.trim() || "Confirm with store",
-        Use: form.use.trim() || "General",
-      },
+      specs,
     };
 
     if (product) {
