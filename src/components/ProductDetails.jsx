@@ -32,10 +32,16 @@ export default function ProductDetails({
 }) {
   if (!product) return null;
 
-  const discount = Math.max(
-    0,
-    Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
-  );
+  const hasDiscount =
+    Number(product.oldPrice) > Number(product.price) && Number(product.oldPrice) > 0;
+
+  const discount = hasDiscount
+    ? Math.round(
+        ((Number(product.oldPrice) - Number(product.price)) /
+          Number(product.oldPrice)) *
+          100
+      )
+    : 0;
 
   return (
     <div className="details-backdrop" onMouseDown={onClose}>
@@ -53,8 +59,16 @@ export default function ProductDetails({
         <div className="details-top">
           <div className="details-gallery">
             <div className="details-image">
-              <img src={product.image} alt={product.name} />
-              <span className="details-discount">Save {discount}%</span>
+              <img
+                src={product.image}
+                alt={product.name}
+                onError={(event) => {
+                  event.currentTarget.style.opacity = "0";
+                }}
+              />
+              {hasDiscount && (
+                <span className="details-discount">Save {discount}%</span>
+              )}
             </div>
 
             <div className="details-trust">
@@ -77,8 +91,8 @@ export default function ProductDetails({
 
             <div className="details-price">
               <strong>{money(product.price)}</strong>
-              <del>{money(product.oldPrice)}</del>
-              <span>-{discount}%</span>
+              {hasDiscount && <del>{money(product.oldPrice)}</del>}
+              {hasDiscount && <span>Save {discount}%</span>}
             </div>
 
             <div className="details-chips">
