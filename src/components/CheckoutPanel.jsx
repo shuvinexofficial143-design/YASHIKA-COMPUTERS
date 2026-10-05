@@ -22,9 +22,12 @@ export default function CheckoutPanel({
   onClose,
   onOpenAccount,
   onCreateOrder,
+  onOrderSuccess,
 }) {
   const [pincode, setPincode] = useState("");
   const [pinStatus, setPinStatus] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const itemCount = useMemo(
     () => cart.reduce((sum, item) => sum + item.qty, 0),
@@ -41,12 +44,30 @@ export default function CheckoutPanel({
     }
   };
 
-  const confirmOrder = () => {
+  const confirmOrder = async () => {
+    setSubmitError("");
+
+    if (!cart.length) {
+      setSubmitError("Your cart is empty.");
+      return;
+    }
+
+    if (!user?.name?.trim() || !user?.phone?.trim()) {
+      setSubmitError("Please add your name and phone number before continuing.");
+      return;
+    }
+
+    if (!/^\d{6}$/.test(pincode)) {
+      setPinStatus("invalid");
+      setSubmitError("Please enter a valid 6-digit delivery pincode.");
+      return;
+    }
+
     const order = {
       id: `YC${Date.now().toString().slice(-8)}`,
       createdAt: new Date().toLocaleString("en-IN"),
       status: "New",
-      customer: user || null,
+      customer: user,
       pincode,
       items: cart.map((item) => ({
         id: item.id,
@@ -60,25 +81,34 @@ export default function CheckoutPanel({
       coupon: pricing?.coupon || null,
     };
 
-    onCreateOrder(order);
+    setSubmitting(true);
 
-    const lines = cart
-      .map(
-        (item) =>
-          `• ${item.name} x${item.qty} — ${money(item.price * item.qty)}`
-      )
-      .join("\n");
+    try {
+      const result = await onCreateOrder(order);
 
-    const customer = user
-      ? `${user.name} | ${user.phone}${user.email ? ` | ${user.email}` : ""}`
-      : "Customer details not saved";
+      if (result?.ok === false) {
+        throw new Error(
+          result?.error?.message || "We could not save your enquiry."
+        );
+      }
 
-    const message = encodeURIComponent(
-      `Hello Yashika Computers, I want to place/confirm this enquiry order.
+      const lines = cart
+        .map(
+          (item) =>
+            `• ${item.name} x${item.qty} — ${money(item.price * item.qty)}`
+        )
+        .join("\n");
+
+      const customer = `${user.name} | ${user.phone}${
+        user.email ? ` | ${user.email}` : ""
+      }`;
+
+      const message = encodeURIComponent(
+        `Hello Yashika Computers, I want to place/confirm this enquiry order.
 
 Order ID: ${order.id}
 Customer: ${customer}
-Pincode: ${pincode || "Not entered"}
+Pincode: ${pincode}
 
 Items:
 ${lines}
@@ -88,10 +118,19 @@ Discount: ${money(pricing?.discount || 0)}
 Estimated total: ${money(pricing?.total || 0)}
 
 Please confirm exact stock, condition, warranty, delivery and final payable amount.`
-    );
+      );
 
-    window.open(`https://wa.me/919669888886?text=${message}`, "_blank");
-    onClose();
+      onOrderSuccess?.();
+      window.open(`https://wa.me/919669888886?text=${message}`, "_blank");
+      onClose();
+    } catch (error) {
+      setSubmitError(
+        error?.message ||
+          "We could not save your enquiry. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -111,8 +150,8 @@ Please confirm exact stock, condition, warranty, delivery and final payable amou
           <span className="eyebrow">CHECKOUT</span>
           <h2>Review your enquiry order</h2>
           <p>
-            This checkout prepares the order details and saves the enquiry in
-            the local admin dashboard.
+            Review your products and contact details, then send the enquiry to
+            Yashika Computers for final confirmation.
           </p>
         </div>
 
@@ -218,14 +257,22 @@ Please confirm exact stock, condition, warranty, delivery and final payable amou
               <strong>{money(pricing?.total || 0)}</strong>
             </div>
 
-            <button className="btn btn-primary btn-wide" onClick={confirmOrder}>
+            {submitError && (
+              <div className="pin-result error">{submitError}</div>
+            )}
+
+            <button
+              className="btn btn-primary btn-wide"
+              onClick={confirmOrder}
+              disabled={submitting}
+            >
               <MessageCircle size={18} />
-              Save & confirm on WhatsApp
+              {submitting ? "Saving enquiry..." : "Confirm on WhatsApp"}
             </button>
 
             <p>
-              This creates a local enquiry record. Final payable amount is
-              confirmed by the store.
+              Final stock, delivery, warranty and payable amount are confirmed
+              by the store before purchase.
             </p>
           </aside>
         </div>
