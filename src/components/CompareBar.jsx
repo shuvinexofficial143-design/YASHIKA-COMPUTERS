@@ -130,13 +130,6 @@ export default function CompareBar({ products, onRemove, onClear }) {
                   </div>
                 ))}
 
-                <div className="compare-label">Rating</div>
-                {products.map((product) => (
-                  <div className="compare-value" key={`rating-${product.id}`}>
-                    {product.rating ? `${product.rating}/5` : "—"}
-                  </div>
-                ))}
-
                 {specKeys.map((key) => (
                   <React.Fragment key={key}>
                     <div className="compare-label">{key}</div>
