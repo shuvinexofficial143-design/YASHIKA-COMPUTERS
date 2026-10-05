@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckCircle2, LogOut, UserRound, X } from "lucide-react";
 
 export default function AuthModal({ open, user, onSave, onLogout, onClose }) {
@@ -7,6 +7,16 @@ export default function AuthModal({ open, user, onSave, onLogout, onClose }) {
     phone: user?.phone || "",
     email: user?.email || "",
   });
+
+  useEffect(() => {
+    if (!open) return;
+
+    setForm({
+      name: user?.name || "",
+      phone: user?.phone || "",
+      email: user?.email || "",
+    });
+  }, [open, user]);
 
   if (!open) return null;
 
@@ -72,7 +82,10 @@ export default function AuthModal({ open, user, onSave, onLogout, onClose }) {
               inputMode="tel"
               value={form.phone}
               onChange={(event) =>
-                setForm({ ...form, phone: event.target.value })
+                setForm({
+                  ...form,
+                  phone: event.target.value.replace(/[^0-9+ -]/g, ""),
+                })
               }
               placeholder="10-digit phone number"
             />
