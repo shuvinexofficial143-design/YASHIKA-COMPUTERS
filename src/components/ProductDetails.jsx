@@ -86,8 +86,8 @@ export default function ProductDetails({
 
             <div className="details-rating">
               <Star size={17} fill="currentColor" />
-              <strong>{product.rating}</strong>
-              <span>Product rating</span>
+              <strong>Recommended</strong>
+              <span>Value-focused configuration</span>
             </div>
 
             <div className="details-price">
