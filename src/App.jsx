@@ -219,6 +219,34 @@ function App() {
     setCheckoutOpen(true);
   };
 
+  const orderProductNow = (product) => {
+    if (product.stock === "Out of Stock") return;
+
+    const existing = cart.find((item) => item.id === product.id);
+    const nextCart = existing
+      ? cart.map((item) =>
+          item.id === product.id ? { ...item, qty: item.qty + 1 } : item
+        )
+      : [...cart, { ...product, qty: 1 }];
+
+    const subtotal = nextCart.reduce(
+      (sum, item) => sum + Number(item.price) * item.qty,
+      0
+    );
+
+    setCart(nextCart);
+    setCheckoutPricing({
+      subtotal,
+      discount: 0,
+      total: subtotal,
+      coupon: null,
+    });
+    setProductDetails(null);
+    setCartOpen(false);
+    setCheckoutOpen(true);
+  };
+
+
   return (
     <>
       <div className="topbar">
@@ -726,7 +754,11 @@ function App() {
         related={relatedProducts}
         liked={productDetails ? liked.includes(productDetails.id) : false}
         onLike={toggleLike}
-        onAdd={addToCart}
+        onAdd={(product) => {
+          addToCart(product);
+          setProductDetails(null);
+        }}
+        onBuyNow={orderProductNow}
         onClose={() => setProductDetails(null)}
         onOpenRelated={setProductDetails}
         onAskAI={(product) => {
