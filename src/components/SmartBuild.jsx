@@ -1,49 +1,94 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, Gamepad2, GraduationCap, MonitorPlay, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Gamepad2,
+  GraduationCap,
+  MonitorPlay,
+  Sparkles,
+} from "lucide-react";
 
 const useCases = [
-  { id: "study", label: "Study / Office", icon: GraduationCap },
-  { id: "gaming", label: "Gaming", icon: Gamepad2 },
-  { id: "creator", label: "Editing / Creator", icon: MonitorPlay },
+  {
+    id: "study",
+    label: "Study / Office",
+    icon: GraduationCap,
+    terms: ["office", "study", "business", "billing", "coding"],
+  },
+  {
+    id: "gaming",
+    label: "Gaming",
+    icon: Gamepad2,
+    terms: ["gaming", "rtx", "gtx", "graphics", "rendering"],
+  },
+  {
+    id: "creator",
+    label: "Editing / Creator",
+    icon: MonitorPlay,
+    terms: ["editing", "creative", "creator", "rendering", "32gb", "macbook"],
+  },
 ];
 
-const suggestions = {
-  study: {
-    low: "Refurbished i5 business laptop + 8GB RAM + SSD",
-    mid: "11th Gen i5 laptop + 16GB RAM + 512GB SSD",
-    high: "Premium business laptop / MacBook Air class machine",
-  },
-  gaming: {
-    low: "Entry gaming desktop + GTX-class GPU",
-    mid: "6-core CPU + 16GB RAM + RTX-class GPU",
-    high: "High-refresh gaming build + powerful RTX GPU",
-  },
-  creator: {
-    low: "i5 workstation + 16GB RAM + SSD",
-    mid: "i7 / Ryzen 7 + 32GB RAM + dedicated GPU",
-    high: "Creator workstation / MacBook Pro class machine",
-  },
-};
+const money = (value) =>
+  new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(value);
 
-function budgetBand(value) {
-  if (value < 30000) return "low";
-  if (value < 65000) return "mid";
-  return "high";
+function searchable(product) {
+  return [
+    product.name,
+    product.subtitle,
+    product.category,
+    product.brand,
+    ...Object.values(product.specs || {}),
+  ]
+    .join(" ")
+    .toLowerCase();
 }
 
-export default function SmartBuild() {
+export default function SmartBuild({ products = [], onDetails }) {
   const [budget, setBudget] = useState(45000);
   const [useCase, setUseCase] = useState("gaming");
 
-  const recommendation = useMemo(
-    () => suggestions[useCase][budgetBand(budget)],
-    [budget, useCase]
-  );
+  const matches = useMemo(() => {
+    const current = useCases.find((item) => item.id === useCase) || useCases[0];
+
+    return products
+      .filter((product) => product.stock !== "Out of Stock")
+      .map((product) => {
+        const text = searchable(product);
+        let score = Number(product.rating || 0) * 2;
+
+        for (const term of current.terms) {
+          if (text.includes(term)) score += 7;
+        }
+
+        if (product.price <= budget) {
+          score += 18;
+          score += Math.max(
+            0,
+            7 - (Math.abs(budget - product.price) / Math.max(budget, 1)) * 7
+          );
+        } else {
+          score -= Math.min(28, ((product.price - budget) / budget) * 35);
+        }
+
+        return { product, score };
+      })
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 2)
+      .map((item) => item.product);
+  }, [products, budget, useCase]);
+
+  const primary = matches[0];
 
   const message = encodeURIComponent(
     `Hello Yashika Computers, my budget is ₹${budget.toLocaleString(
       "en-IN"
-    )}. I need a computer for ${useCase}. Please suggest the best options.`
+    )}. I need a computer for ${useCase}. I shortlisted ${matches
+      .map((item) => item.name)
+      .join(" and ")}. Please help me choose the best option.`
   );
 
   return (
@@ -52,13 +97,23 @@ export default function SmartBuild() {
         <div className="smart-build-copy">
           <span className="eyebrow">
             <Sparkles size={16} />
-            SMART BUYING ASSISTANT
+            SMART PC FINDER
           </span>
-          <h2>Tell us your budget. Get a smarter starting point.</h2>
+          <h2>Set your budget. Get matching products instantly.</h2>
           <p>
-            Choose what you need the computer for and set your approximate
-            budget. We’ll generate a simple recommendation you can send to the store.
+            Choose your main use and budget. The finder scans the current
+            catalogue and surfaces the strongest matches.
           </p>
+
+          {primary && (
+            <div className="finder-confidence">
+              <span>TOP MATCH</span>
+              <strong>{primary.name}</strong>
+              <small>
+                {primary.subtitle} · {money(primary.price)}
+              </small>
+            </div>
+          )}
         </div>
 
         <div className="smart-build-panel">
@@ -95,13 +150,33 @@ export default function SmartBuild() {
             </div>
           </div>
 
-          <div className="recommendation-box">
-            <small>RECOMMENDED STARTING POINT</small>
-            <strong>{recommendation}</strong>
-            <p>
-              Final configuration depends on current stock, exact software/games
-              and upgrade requirements.
-            </p>
+          <div className="finder-results">
+            <div className="finder-results-head">
+              <small>BEST MATCHES</small>
+              <span>{matches.length} shortlisted</span>
+            </div>
+
+            {matches.map((product, index) => (
+              <button
+                className="finder-result"
+                key={product.id}
+                onClick={() => onDetails?.(product)}
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                  }}
+                />
+                <span>
+                  <small>{index === 0 ? "BEST MATCH" : "ALTERNATIVE"}</small>
+                  <strong>{product.name}</strong>
+                  <em>{product.subtitle}</em>
+                </span>
+                <b>{money(product.price)}</b>
+              </button>
+            ))}
           </div>
 
           <a
@@ -110,7 +185,7 @@ export default function SmartBuild() {
             target="_blank"
             rel="noreferrer"
           >
-            Ask Yashika Computers
+            Discuss these options
             <ArrowRight size={18} />
           </a>
         </div>
