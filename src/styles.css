@@ -310,6 +310,13 @@ img {
   transform: translateY(-2px);
 }
 
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: .58;
+  transform: none;
+  box-shadow: none;
+}
+
 .btn-primary {
   background: var(--blue);
   color: white;
