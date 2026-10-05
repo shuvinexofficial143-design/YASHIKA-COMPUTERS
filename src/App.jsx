@@ -10,6 +10,7 @@ import {
   Instagram,
   Laptop,
   MapPin,
+  MessageCircle,
   Menu,
   MonitorUp,
   Phone,
@@ -21,7 +22,6 @@ import {
   UserRound,
   Wrench,
   X,
-  Youtube,
   Zap,
 } from "lucide-react";
 
@@ -482,7 +482,7 @@ function App() {
           </div>
         </section>
 
-        <SmartBuild />
+        <SmartBuild products={products} onDetails={setProductDetails} />
 
         <section className="dark-section" id="why-us">
           <div className="section">
@@ -617,9 +617,15 @@ function App() {
                 <span><small>Instagram</small><strong>@computer_by_yashika</strong></span>
               </a>
 
-              <a href="https://www.youtube.com/" target="_blank" rel="noreferrer">
-                <Youtube />
-                <span><small>YouTube</small><strong>Watch latest deals</strong></span>
+              <a
+                href={`https://wa.me/919669888886?text=${encodeURIComponent(
+                  "Hello Yashika Computers, I need help choosing a computer."
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <MessageCircle />
+                <span><small>WhatsApp</small><strong>Chat with store</strong></span>
               </a>
             </div>
           </div>
