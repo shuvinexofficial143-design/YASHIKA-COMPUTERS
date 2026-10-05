@@ -25,7 +25,7 @@ Requirement: ${form.need}`
     <form className="enquiry-form" onSubmit={submit}>
       <div className="enquiry-form-head">
         <div>
-          <small>FAST ENQUIRY</small>
+          <small>QUICK ASSISTANCE</small>
           <strong>Ask about this product</strong>
         </div>
         {sent && <CheckCircle2 size={20} />}
@@ -40,6 +40,7 @@ Requirement: ${form.need}`
         />
         <input
           required
+          minLength="10"
           inputMode="tel"
           placeholder="Phone number"
           value={form.phone}
