@@ -185,6 +185,8 @@ function App() {
   };
 
   const addToCart = (product) => {
+    if (product.stock === "Out of Stock") return;
+
     setCart((current) => {
       const existing = current.find((item) => item.id === product.id);
 
@@ -488,9 +490,7 @@ function App() {
                 <span>
                   {productsLoading ? "Loading catalog..." : `${filteredProducts.length} products found`}
                 </span>
-                <small>
-                  Backend: {catalogMode === "cloud" ? "Supabase cloud" : "local fallback"}
-                </small>
+                <small>Updated catalog · Contact store for final availability</small>
               </div>
 
               <div className="product-grid product-grid-v3">
@@ -515,7 +515,7 @@ function App() {
                     <h3>{productsLoading ? "Loading..." : "No matching product"}</h3>
                     <p>
                       {productsLoading
-                        ? "Fetching products from the backend."
+                        ? "Loading the latest catalog."
                         : "Try another search, budget or brand."}
                     </p>
                   </div>
@@ -682,9 +682,7 @@ function App() {
           <p>
             Premium refurbished tech · Custom PCs · Gaming · Components
             <br />
-            <span className="v6-footer-mode">
-              {catalogMode === "cloud" ? "Cloud backend connected" : "Local backend fallback"}
-            </span>
+            <span className="v6-footer-mode">Indore · Support available on call & WhatsApp</span>
           </p>
 
           <button className="footer-admin-button" onClick={() => setAdminOpen(true)}>
@@ -728,6 +726,7 @@ function App() {
         user={user}
         onClose={() => setCheckoutOpen(false)}
         onCreateOrder={createOrder}
+        onOrderSuccess={() => setCart([])}
         onOpenAccount={() => {
           setCheckoutOpen(false);
           setAuthOpen(true);
