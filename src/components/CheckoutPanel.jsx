@@ -95,7 +95,7 @@ export default function CheckoutPanel({
 
       if (result?.ok === false) {
         throw new Error(
-          result?.error?.message || "We could not save your enquiry."
+          result?.error?.message || "We could not prepare your order request."
         );
       }
 
@@ -133,7 +133,7 @@ Please confirm exact stock, condition, warranty, delivery and final payable amou
     } catch (error) {
       setSubmitError(
         error?.message ||
-          "We could not save your enquiry. Please try again."
+          "We could not prepare your order request. Please try again."
       );
     } finally {
       setSubmitting(false);
@@ -155,9 +155,9 @@ Please confirm exact stock, condition, warranty, delivery and final payable amou
 
         <div className="checkout-heading">
           <span className="eyebrow">CHECKOUT</span>
-          <h2>Review your enquiry order</h2>
+          <h2>Review your order request</h2>
           <p>
-            Review your products and contact details, then send the enquiry to
+            Check your products and contact details, then continue with
             Yashika Computers for final confirmation.
           </p>
         </div>
@@ -274,7 +274,7 @@ Please confirm exact stock, condition, warranty, delivery and final payable amou
               disabled={submitting}
             >
               <MessageCircle size={18} />
-              {submitting ? "Saving enquiry..." : "Confirm on WhatsApp"}
+              {submitting ? "Preparing..." : "Continue on WhatsApp"}
             </button>
 
             <p>
