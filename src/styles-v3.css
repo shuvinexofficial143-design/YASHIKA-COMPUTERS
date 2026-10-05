@@ -189,6 +189,11 @@
   color: #b76a00;
 }
 
+.stock-line > span.out {
+  background: #fff0f2;
+  color: #c2384b;
+}
+
 .stock-line small {
   max-width: 112px;
   overflow: hidden;
@@ -373,6 +378,19 @@
   border-color: #f5d59c;
   background: #fff8eb;
   color: #a76600;
+}
+
+.details-chips span.danger {
+  border-color: #f4c6cd;
+  background: #fff1f3;
+  color: #bf3348;
+}
+
+.details-actions .btn:disabled {
+  cursor: not-allowed;
+  opacity: .58;
+  transform: none;
+  box-shadow: none;
 }
 
 .details-actions {
