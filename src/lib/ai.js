@@ -67,6 +67,17 @@ function productText(product) {
 function scoreProduct(product, intent, budget, query) {
   const text = productText(product);
   let score = Number(product.rating || 0) * 2;
+  const completeSystem = [
+    "Refurbished Laptop",
+    "MacBook",
+    "Desktop",
+  ].includes(product.category);
+
+  if (intent === "upgrade") {
+    score += completeSystem ? -8 : 16;
+  } else if (["gaming", "creator", "coding", "office", "mac"].includes(intent)) {
+    score += completeSystem ? 14 : -28;
+  }
 
   const intentTerms = {
     gaming: ["gaming", "rtx", "gtx", "graphics", "1440p", "1080p", "rendering"],
@@ -191,14 +202,13 @@ function compareAnswer(message) {
   if (!a || !b) return null;
 
   const cheaper = a.price <= b.price ? a : b;
-  const higherRated = Number(a.rating) >= Number(b.rating) ? a : b;
-
   return [
     `${a.name} vs ${b.name}`,
     `• ${a.name}: ${money(a.price)} · ${a.subtitle}`,
     `• ${b.name}: ${money(b.price)} · ${b.subtitle}`,
     `• Budget winner: ${cheaper.name}`,
-    `• Rating edge: ${higherRated.name} (${higherRated.rating}/5)`,
+    `• ${a.name}: ${a.condition} · ${a.warranty}`,
+    `• ${b.name}: ${b.condition} · ${b.warranty}`,
     `• ${a.name} best use: ${a.specs?.Use || "general use"}`,
     `• ${b.name} best use: ${b.specs?.Use || "general use"}`,
     "Final pick आपके software, upgrade need और exact unit condition पर depend करेगा।",
