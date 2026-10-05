@@ -243,7 +243,7 @@ function App() {
           <a href="#shop" onClick={() => setMenuOpen(false)}>Shop</a>
           <a href="#pc-builder" onClick={() => setMenuOpen(false)}>PC Finder</a>
           <a href="#why-us" onClick={() => setMenuOpen(false)}>Why us</a>
-          <a href="#reviews" onClick={() => setMenuOpen(false)}>Reviews</a>
+          <a href="#buying-guide" onClick={() => setMenuOpen(false)}>How it works</a>
           <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
           <button
             className="nav-ai-button"
@@ -531,7 +531,7 @@ function App() {
           </div>
         </section>
 
-        <section className="section review-section" id="reviews">
+        <section className="section review-section" id="buying-guide">
           <div className="section-head">
             <div>
               <span className="eyebrow">BUY WITH CLARITY</span>
